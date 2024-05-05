@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Purchase Order</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #cce6ff; /* Pale blue background */
+            text-align: center; /* Center align all content */
+            padding: 20px;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff; /* White background */
+            border: 2px solid #007bff; /* Blue border */
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+        <h1>Delete Purchase Order</h1>
+        {% if deletion_message %}
+        <p>{{ deletion_message }}</p>
+        {% endif %}
+        <form method="post" action="{% url 'delete_purchase' %}">
+            {% csrf_token %}
+            <label for="delete_po_number">PO Number:</label>
+            <input type="text" id="delete_po_number" name="po_number">
+            <br>
+            <button type="submit">Delete</button>
+        </form>
+        
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>PO Number</th>
+                    <th>Vendor Name</th>
+                    <th>Order Date</th>
+                    <th>Items</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for purchase_order in purchase_orders %}
+                <tr>
+                    <td>{{ purchase_order.po_number }}</td>
+                    <td>{{ purchase_order.vendor.name }}</td>
+                    <td>{{ purchase_order.order_date }}</td>
+                    <td>{{ purchase_order.items }}</td>
+                    <td>{{ purchase_order.quantity }}</td>
+                    <td>{{ purchase_order.status }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">No purchase orders found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

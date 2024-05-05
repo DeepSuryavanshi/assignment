@@ -1,0 +1,36 @@
+<!-- vendor_performance.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Performance</title>
+</head>
+<body>
+    <h1>Vendor Performance</h1>
+    <form method="post" action="{% url 'save_vendor_performance' %}">
+        {% csrf_token %}
+        <label for="vendor">Vendor:</label>
+        <select name="vendor" id="vendor">
+            {% for vendor in vendors %}
+                <option value="{{ vendor.id }}">{{ vendor.name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="on_time_delivery_rate">On-Time Delivery Rate:</label>
+        <input type="number" name="on_time_delivery_rate" id="on_time_delivery_rate" min="0" max="100" step="0.01">
+        <br>
+        <label for="quality_rating">Quality Rating:</label>
+        <input type="number" name="quality_rating" id="quality_rating" min="0" max="100" step="0.01">
+        <br>
+        <label for="response_time">Response Time:</label>
+        <input type="number" name="response_time" id="response_time" min="0" step="0.01">
+        <br>
+        <label for="fulfilment_rate">Fulfilment Rate:</label>
+        <input type="number" name="fulfilment_rate" id="fulfilment_rate" min="0" max="100" step="0.01">
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

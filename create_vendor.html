@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create New Vendor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://source.unsplash.com/1600x900/?technology'); /* Background image */
+            background-size: cover;
+            background-position: center;
+            text-align: center; /* Center align all content */
+        }
+        .form-container {
+            display: inline-block;
+            width: 50%; /* Set the width of the form */
+            margin-top: 50px; /* Add space at the top */
+            padding: 20px;
+            border: 2px solid #007bff; /* Blue border around the form */
+            border-radius: 10px; /* Rounded corners for the form */
+            transition: transform 0.3s ease; /* Add transition effect */
+            background-color: #f9f9f9; /* Light gray background for the form */
+        }
+        .form-container:hover {
+            transform: translateX(-5px); /* Shaky effect on hover */
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #007bff;
+            text-align: left; /* Align labels to the left */
+        }
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease; /* Add transition effect */
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3; /* Darker blue color on hover */
+        }
+        a {
+            display: block;
+            text-decoration: none;
+            margin-top: 20px;
+            color: #007bff;
+            transition: color 0.3s ease; /* Add transition effect */
+        }
+        a:hover {
+            color: #0056b3; /* Darker blue color on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Create New Vendor</h1>
+    <a href="{% url 'dashboard' %}">Back to Dashboard</a> <!-- Back to Dashboard link -->
+    <div class="form-container">
+        <form method="post">
+            {% csrf_token %}
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" name="name" required><br>
+            <label for="contact_details">Contact Details:</label><br>
+            <input type="text" id="contact_details" name="contact_details" required><br>
+            <label for="address">Address:</label><br>
+            <textarea id="address" name="address" required></textarea><br>
+            <label for="vendor_code">Vendor Code:</label><br>
+            <input type="text" id="vendor_code" name="vendor_code" required><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>

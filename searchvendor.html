@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* Light gray background */
+            text-align: center; /* Center align all content */
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            background-color: #e9f1f9; /* Light blue background */
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .box {
+            width: 45%; /* Set width for each box */
+            padding: 20px;
+            border: 2px solid #007bff; /* Blue border */
+            border-radius: 10px;
+            background-color: #fff; /* White background */
+            margin-bottom: 20px;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'dashboard' %}" style="text-decoration: none; font-size: 16px;">← Back to Dashboard</a>
+    <div class="container">
+        <div class="box">
+            <h1>Search Vendor</h1>
+            <form method="post">
+                {% csrf_token %}
+                <label for="name">Name:</label><br>
+                <input type="text" id="name" name="name" required><br>
+                <label for="address">Address:</label><br>
+                <input type="text" id="address" name="address" required><br>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+    <div class="container">
+        <div class="box">
+            <h1>Vendor Details</h1>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Contact Details</th>
+                        <th>Vendor Code</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vendor in vendors %}
+                    <tr>
+                        <td>{{ vendor.name }}</td>
+                        <td>{{ vendor.address }}</td>
+                        <td>{{ vendor.contact_details }}</td>
+                        <td>{{ vendor.vendor_code }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4">No vendors found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

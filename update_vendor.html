@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Vendor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* Light gray background */
+            text-align: center; /* Center align all content */
+            padding: 20px;
+        }
+        h1, h2 {
+            margin-top: 0;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        .vendors-box {
+            border: 2px solid #007bff; /* Blue border */
+            border-radius: 10px;
+            background-color: #fff; /* White background */
+            padding: 10px; /* Adjust padding */
+            margin-bottom: 20px;
+            width: 50%; /* Adjust width */
+            margin: 0 auto; /* Center horizontally */
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0; /* Remove default margin */
+        }
+        li {
+            margin-bottom: 5px; /* Adjust margin */
+        }
+        input[type="text"] {
+            width: 80%; /* Reduce width */
+            padding: 6px; /* Adjust padding */
+            margin-bottom: 8px; /* Adjust margin */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+    <h1>Update Vendor</h1>
+    <form method="post" action="{% url 'update_vendor' %}">
+        {% csrf_token %}
+        <label for="vendor_code">Vendor Code:</label><br>
+        <input type="text" id="vendor_code" name="vendor_code"><br>
+        <button type="submit">Get Details</button>
+    </form>
+
+    <div class="vendors-box">
+        <h2>Vendors</h2>
+        <ul>
+            {% for vendor in vendors %}
+                <li>{{ vendor.vendor_code }} - {{ vendor.name }}</li>
+            {% empty %}
+                <li>No vendors found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% if update_message %}
+        <p>{{ update_message }}</p>
+    {% endif %}
+
+    {% if vendor_details %}
+    <form method="post" action="{% url 'save_updated_vendor' %}">
+        {% csrf_token %}
+        <input type="hidden" name="vendor_id" value="{{ vendor_details.id }}">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" value="{{ vendor_details.name }}"><br>
+        <label for="address">Address:</label><br>
+        <input type="text" id="address" name="address" value="{{ vendor_details.address }}"><br>
+        <label for="contact_details">Contact Details:</label><br>
+        <input type="text" id="contact_details" name="contact_details" value="{{ vendor_details.contact_details }}"><br>
+        <button type="submit">Update</button>
+    </form>
+    {% endif %}
+</body>
+</html>

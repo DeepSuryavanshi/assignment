@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Purchase Orders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2; /* Light gray background */
+            padding: 20px;
+        }
+        .container {
+            border: 2px solid #ccc; /* Light gray border */
+            border-radius: 10px;
+            background-color: #fff; /* White background */
+            padding: 20px; /* Adjust padding */
+            margin-bottom: 20px;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 200px; /* Adjust width of search input */
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+    <h1>List of Purchase Orders</h1>
+    <div class="container">
+        <!-- Search form with POST method and CSRF token -->
+        <form method="POST" action="{% url 'search_purchase' %}">
+            {% csrf_token %}
+            <input type="text" name="query" placeholder="Search by PO Number">
+            <button type="submit">Search</button>
+        </form>
+
+        <!-- Table for displaying purchase orders -->
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>PO Number</th>
+                    <th>Vendor Name</th>
+                    <th>Order Date</th>
+                    <th>Items</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for purchase_order in purchase_orders %}
+                    <tr>
+                        <td>{{ purchase_order.po_number }}</td>
+                        <td>{{ purchase_order.vendor.name }}</td>
+                        <td>{{ purchase_order.order_date }}</td>
+                        <td>{{ purchase_order.items }}</td>
+                        <td>{{ purchase_order.quantity }}</td>
+                        <td>{{ purchase_order.status }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="6">No purchase orders found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Purchase Order</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* Light gray background */
+            text-align: center; /* Center align all content */
+            padding: 20px;
+        }
+        .container {
+            border: 2px solid #007bff; /* Blue border */
+            border-radius: 10px;
+            background-color: #fff; /* White background */
+            padding: 20px; /* Adjust padding */
+            margin-bottom: 20px;
+            width: 50%; /* Adjust width */
+            margin: 0 auto; /* Center horizontally */
+        }
+        h1, h2 {
+            margin-top: 0;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+    <h1>Update Purchase Order</h1>
+    <form method="post" action="{% url 'update_purchase' %}">
+        {% csrf_token %}
+        <label for="po_number">PO Number:</label><br>
+        <input type="text" id="po_number" name="po_number"><br>
+        <button type="submit">Get Details</button>
+    </form>
+
+    <div class="container">
+        <h2>Purchase Orders</h2>
+        <ul>
+            {% for purchase_order in purchase_orders %}
+                <li>{{ purchase_order.po_number }} - {{ purchase_order.vendor.name }}</li>
+            {% empty %}
+                <li>No purchase orders found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% if update_message %}
+        <p>{{ update_message }}</p>
+    {% endif %}
+
+    {% if purchase_order_details %}
+    <form method="post" action="{% url 'save_updated_purchase_order' %}">
+        {% csrf_token %}
+        <input type="hidden" name="purchase_order_id" value="{{ purchase_order_details.id }}">
+        <label for="items">Items:</label><br>
+        <input type="text" id="items" name="items" value="{{ purchase_order_details.items }}"><br>
+        <label for="quantity">Quantity:</label><br>
+        <input type="text" id="quantity" name="quantity" value="{{ purchase_order_details.quantity }}"><br>
+        <label for="status">Status:</label><br>
+        <input type="text" id="status" name="status" value="{{ purchase_order_details.status }}"><br>
+        <button type="submit">Update</button>
+    </form>
+    {% endif %}
+</body>
+</html>
