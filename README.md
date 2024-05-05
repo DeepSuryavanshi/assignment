@@ -1,0 +1,1 @@
+This is a simple project in django we can just say it is a vendor management system where the admin is able to create a vendor list them up,detele them and also edit them where the admin can be able to track the purcahse order
